@@ -70,7 +70,7 @@ test('get matrix\'s determinant of 2x2', t => {
     [2, 1],
     [1, 2],
   ];
-  
+
   const det = new Matrix(map).getDet();
   t.is(3, det);
 });

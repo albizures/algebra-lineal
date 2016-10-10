@@ -42,10 +42,14 @@ Matrix.prototype.getDet = function (steps = false) {
   if (this.width === 2) {
     return this.getDet2();
   }
+  if (this.width === 3) {
+    return this.getDet3();
+  }
   let det = 0;
   let i = 1;
   this.map[0].forEach((item, index) => {
-    det += (item * i) * this.getMinor(index, 0).getDet();
+    let newDet = (item * i) * this.getMinor(index, 0).print().getDet();
+    det += newDet
     i = -i;
   });
   return det;
@@ -60,6 +64,29 @@ Matrix.prototype.getDet2 = function () {
     this.get(0, 0) * this.get(1, 1)
   ) - (
     this.get(0, 1) * this.get(1, 0)
+  );
+};
+
+/**
+ * getDet3
+ * @desc retorna el determinante de funciones de 3x3
+ */
+Matrix.prototype.getDet3 = function () {
+  console.log('(',(this.get(0, 0) * this.get(1, 1) * this.get(2, 2)) , '+',
+    (this.get(1, 0) * this.get(2, 1) * this.get(0, 2)), '+',
+    (this.get(2, 0) * this.get(0, 1) * this.get(1, 2)), ') - (',
+     (this.get(0, 2) * this.get(1, 1) * this.get(2, 0)), '+',
+    (this.get(1, 2) * this.get(2, 1) * this.get(0, 0)), '+',
+    (this.get(2, 2) * this.get(0, 1) * this.get(1, 0)), ')'
+  );
+  return (
+    (this.get(0, 0) * this.get(1, 1) * this.get(2, 2)) +
+    (this.get(1, 0) * this.get(2, 1) * this.get(0, 2)) +
+    (this.get(2, 0) * this.get(0, 1) * this.get(1, 2))
+  ) - (
+    (this.get(0, 2) * this.get(1, 1) * this.get(2, 0)) +
+    (this.get(1, 2) * this.get(2, 1) * this.get(0, 0)) +
+    (this.get(2, 2) * this.get(0, 1) * this.get(1, 0))
   );
 };
 
@@ -197,6 +224,7 @@ Matrix.prototype.cramer = function (col) {
   const dets = [];
 
   for (var x = 0; x < this.width; x++) {
+    console.log('-------------------------');
     dets.push(this.toggleCol(x, col).getDet());
   }
 
